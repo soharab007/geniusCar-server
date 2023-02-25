@@ -53,6 +53,19 @@ async function run() {
         res.send(orders);
       });
 
+      app.patch("/orders/:id", async (req, res) => {
+        const id = req.params.id;
+        const status = req.body.status;
+        const query = { _id: new ObjectId(id) };
+        const updatedDoc = {
+          $set: {
+            status: "status",
+          },
+        };
+        const result = await orderCollection.updateOne(query, updatedDoc);
+        res.send(result);
+      });
+
       app.post("/orders", async (req, res) => {
         const order = req.body;
         const result = await orderCollection.insertOne(order);
